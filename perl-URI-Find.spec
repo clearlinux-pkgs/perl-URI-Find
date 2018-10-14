@@ -4,15 +4,16 @@
 #
 Name     : perl-URI-Find
 Version  : 20160806
-Release  : 1
+Release  : 2
 URL      : https://cpan.metacpan.org/authors/id/M/MS/MSCHWERN/URI-Find-20160806.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/M/MS/MSCHWERN/URI-Find-20160806.tar.gz
 Summary  : 'Find URIs in arbitrary text'
 Group    : Development/Tools
-License  : Artistic-1.0-Perl
-Requires: perl-URI-Find-bin
-Requires: perl-URI-Find-man
-BuildRequires : perl(Module::Build)
+License  : Artistic-1.0 Artistic-1.0-Perl GPL-1.0
+Requires: perl-URI-Find-bin = %{version}-%{release}
+Requires: perl-URI-Find-license = %{version}-%{release}
+Requires: perl-URI-Find-man = %{version}-%{release}
+BuildRequires : buildreq-cpan
 BuildRequires : perl(URI)
 
 %description
@@ -28,10 +29,29 @@ $how_many_found = $finder->find(\$text);
 %package bin
 Summary: bin components for the perl-URI-Find package.
 Group: Binaries
-Requires: perl-URI-Find-man
+Requires: perl-URI-Find-license = %{version}-%{release}
+Requires: perl-URI-Find-man = %{version}-%{release}
 
 %description bin
 bin components for the perl-URI-Find package.
+
+
+%package dev
+Summary: dev components for the perl-URI-Find package.
+Group: Development
+Requires: perl-URI-Find-bin = %{version}-%{release}
+Provides: perl-URI-Find-devel = %{version}-%{release}
+
+%description dev
+dev components for the perl-URI-Find package.
+
+
+%package license
+Summary: license components for the perl-URI-Find package.
+Group: Default
+
+%description license
+license components for the perl-URI-Find package.
 
 
 %package man
@@ -60,10 +80,12 @@ fi
 
 %install
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/perl-URI-Find
+cp LICENSE %{buildroot}/usr/share/package-licenses/perl-URI-Find/LICENSE
 if test -f Makefile.PL; then
-make pure_install PERL_INSTALL_ROOT=%{buildroot}
+make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
-./Build install --installdirs=site --destdir=%{buildroot}
+./Build install --installdirs=vendor --destdir=%{buildroot}
 fi
 find %{buildroot} -type f -name .packlist -exec rm -f {} ';'
 find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null ';'
@@ -72,15 +94,22 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/site_perl/5.26.1/URI/Find.pm
-/usr/lib/perl5/site_perl/5.26.1/URI/Find/Schemeless.pm
+/usr/lib/perl5/vendor_perl/5.26.1/URI/Find.pm
+/usr/lib/perl5/vendor_perl/5.26.1/URI/Find/Schemeless.pm
 
 %files bin
 %defattr(-,root,root,-)
 /usr/bin/urifind
 
-%files man
+%files dev
 %defattr(-,root,root,-)
-/usr/share/man/man1/urifind.1
 /usr/share/man/man3/URI::Find.3
 /usr/share/man/man3/URI::Find::Schemeless.3
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/perl-URI-Find/LICENSE
+
+%files man
+%defattr(0644,root,root,0755)
+/usr/share/man/man1/urifind.1
