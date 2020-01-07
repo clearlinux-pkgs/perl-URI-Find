@@ -4,7 +4,7 @@
 #
 Name     : perl-URI-Find
 Version  : 20160806
-Release  : 11
+Release  : 12
 URL      : https://cpan.metacpan.org/authors/id/M/MS/MSCHWERN/URI-Find-20160806.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/M/MS/MSCHWERN/URI-Find-20160806.tar.gz
 Summary  : 'Find URIs in arbitrary text'
@@ -13,6 +13,7 @@ License  : Artistic-1.0 Artistic-1.0-Perl GPL-1.0
 Requires: perl-URI-Find-bin = %{version}-%{release}
 Requires: perl-URI-Find-license = %{version}-%{release}
 Requires: perl-URI-Find-man = %{version}-%{release}
+Requires: perl-URI-Find-perl = %{version}-%{release}
 BuildRequires : buildreq-cpan
 BuildRequires : perl(URI)
 
@@ -30,7 +31,6 @@ $how_many_found = $finder->find(\$text);
 Summary: bin components for the perl-URI-Find package.
 Group: Binaries
 Requires: perl-URI-Find-license = %{version}-%{release}
-Requires: perl-URI-Find-man = %{version}-%{release}
 
 %description bin
 bin components for the perl-URI-Find package.
@@ -41,6 +41,7 @@ Summary: dev components for the perl-URI-Find package.
 Group: Development
 Requires: perl-URI-Find-bin = %{version}-%{release}
 Provides: perl-URI-Find-devel = %{version}-%{release}
+Requires: perl-URI-Find = %{version}-%{release}
 
 %description dev
 dev components for the perl-URI-Find package.
@@ -62,14 +63,24 @@ Group: Default
 man components for the perl-URI-Find package.
 
 
+%package perl
+Summary: perl components for the perl-URI-Find package.
+Group: Default
+Requires: perl-URI-Find = %{version}-%{release}
+
+%description perl
+perl components for the perl-URI-Find package.
+
+
 %prep
 %setup -q -n URI-Find-20160806
+cd %{_builddir}/URI-Find-20160806
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
+export LANG=C.UTF-8
 if test -f Makefile.PL; then
 %{__perl} Makefile.PL
 make  %{?_smp_mflags}
@@ -81,7 +92,7 @@ fi
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/perl-URI-Find
-cp LICENSE %{buildroot}/usr/share/package-licenses/perl-URI-Find/LICENSE
+cp %{_builddir}/URI-Find-20160806/LICENSE %{buildroot}/usr/share/package-licenses/perl-URI-Find/33588c7e464ec9e25c0a768a4ca6381bc8e7e530
 if test -f Makefile.PL; then
 make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
@@ -94,8 +105,6 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.28.2/URI/Find.pm
-/usr/lib/perl5/vendor_perl/5.28.2/URI/Find/Schemeless.pm
 
 %files bin
 %defattr(-,root,root,-)
@@ -108,8 +117,13 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/perl-URI-Find/LICENSE
+/usr/share/package-licenses/perl-URI-Find/33588c7e464ec9e25c0a768a4ca6381bc8e7e530
 
 %files man
 %defattr(0644,root,root,0755)
 /usr/share/man/man1/urifind.1
+
+%files perl
+%defattr(-,root,root,-)
+/usr/lib/perl5/vendor_perl/5.30.1/URI/Find.pm
+/usr/lib/perl5/vendor_perl/5.30.1/URI/Find/Schemeless.pm
