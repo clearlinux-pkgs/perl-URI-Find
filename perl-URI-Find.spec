@@ -4,7 +4,7 @@
 #
 Name     : perl-URI-Find
 Version  : 20160806
-Release  : 14
+Release  : 15
 URL      : https://cpan.metacpan.org/authors/id/M/MS/MSCHWERN/URI-Find-20160806.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/M/MS/MSCHWERN/URI-Find-20160806.tar.gz
 Summary  : 'Find URIs in arbitrary text'
@@ -125,5 +125,5 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files perl
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.30.3/URI/Find.pm
-/usr/lib/perl5/vendor_perl/5.30.3/URI/Find/Schemeless.pm
+/usr/lib/perl5/vendor_perl/5.32.1/URI/Find.pm
+/usr/lib/perl5/vendor_perl/5.32.1/URI/Find/Schemeless.pm
