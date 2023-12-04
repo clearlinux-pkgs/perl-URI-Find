@@ -5,7 +5,7 @@
 #
 Name     : perl-URI-Find
 Version  : 20160806
-Release  : 19
+Release  : 20
 URL      : https://cpan.metacpan.org/authors/id/M/MS/MSCHWERN/URI-Find-20160806.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/M/MS/MSCHWERN/URI-Find-20160806.tar.gz
 Summary  : 'Find URIs in arbitrary text'
